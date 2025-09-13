@@ -1,0 +1,9 @@
+node_modules
+.pnpm-store
+.git
+.gitignore
+.git.bak.*
+.env
+.DS_Store
+apps/web/.next
+apps/web/.turbo

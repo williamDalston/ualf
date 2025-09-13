@@ -1,0 +1,25 @@
+name: ci
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m venv .venv && . .venv/bin/activate && pip install -r apps/api/requirements.txt
+      - run: . .venv/bin/activate && python -c "import fastapi,uvicorn,pydantic; print('ok')"
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.16.0
+      - run: cd apps/web && pnpm install
+      - run: cd apps/web && pnpm -s lint || true
